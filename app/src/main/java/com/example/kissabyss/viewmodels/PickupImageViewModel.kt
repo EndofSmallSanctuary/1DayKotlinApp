@@ -5,10 +5,14 @@ import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.kissabyss.processing.ImageFilter
 import com.example.kissabyss.repositories.EditImageRepository
 import com.example.kissabyss.utilities.Coroutines
 
 class PickupImageViewModel(private val editImageRepository: EditImageRepository) : ViewModel() {
+
+    //region :: Prepare Image Preview
+
 
     private val imagePreviewDataState = MutableLiveData<ImagePreviewDataState>()
     val imagePreviewUiState: LiveData<ImagePreviewDataState> get() = imagePreviewDataState
@@ -42,4 +46,13 @@ class PickupImageViewModel(private val editImageRepository: EditImageRepository)
         val error: String?
     )
 
+    //endregion
+
+    //region:: Prepare image Filters
+    private val imageFiltersDataState =  MutableLiveData<ImageFiltersDataState>()
+    
+
+    data class ImageFiltersDataState(val isLoading: Boolean,val imageFilters: List<ImageFilter>, val error: String?)
+
+    //endregion
 }

@@ -1,10 +1,11 @@
-package com.example.kissabyss
+package com.example.kissabyss.views.main
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import com.example.kissabyss.databinding.ActivityMainBinding
+import com.example.kissabyss.views.editimage.PickupImageActivity
 
 class MainActivity : AppCompatActivity() {
     companion object {

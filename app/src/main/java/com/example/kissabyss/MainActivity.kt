@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
     private fun setListenersOnLoad(){
         binding.buttonEditNewImage.setOnClickListener{
             Intent(
-                KEY_IMAGE_URI,
+                Intent.ACTION_PICK,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI
             ).also { pickupIntent ->
                 pickupIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)

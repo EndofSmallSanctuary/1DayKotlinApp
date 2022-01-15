@@ -33,7 +33,7 @@ class PickupImageViewModel(private val editImageRepository: EditImageRepository)
         error: String? = null
     ) {
         val dataState = ImagePreviewDataState(isLoading,bitmap,error)
-        imagePreviewDataState.value = dataState
+        imagePreviewDataState.postValue(dataState)
     }
 
     data class ImagePreviewDataState(

@@ -6,6 +6,8 @@ import com.example.kissabyss.viewmodels.viewModelModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
+
+@Suppress("unused")
 class App : Application() {
     override fun onCreate() {
         super.onCreate()

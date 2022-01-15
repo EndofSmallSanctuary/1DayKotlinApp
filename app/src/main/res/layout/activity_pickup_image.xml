@@ -52,7 +52,7 @@
         android:scaleType="centerCrop"
         app:layout_constraintTop_toBottomOf="@id/layoutHeader"
         app:layout_constraintBottom_toTopOf="@id/filtersRecyclerView"
-        android:src="@drawable/landing_screen_full"/>
+        tools:src="@drawable/landing_screen_full"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/filtersRecyclerView"

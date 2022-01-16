@@ -31,6 +31,9 @@ class MainActivity : AppCompatActivity() {
                 startActivityForResult(pickupIntent, REQUEST_CODE_PICK_IMAGE)
             }
         }
+        binding.buttonEditSavedImage.setOnClickListener{
+            Intent(applicationContext, )
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

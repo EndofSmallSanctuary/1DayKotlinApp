@@ -1,5 +1,6 @@
 package com.example.kissabyss.views.editimage
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -13,11 +14,16 @@ import com.example.kissabyss.processing.ImageFilter
 import com.example.kissabyss.utilities.displayToast
 import com.example.kissabyss.utilities.show
 import com.example.kissabyss.viewmodels.PickupImageViewModel
+import com.example.kissabyss.views.filteredImage.FilteredImageActivity
 import com.example.kissabyss.views.main.MainActivity
 import jp.co.cyberagent.android.gpuimage.GPUImage
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class PickupImageActivity : AppCompatActivity(), ImageFilterPreviewListener {
+
+    companion object{
+        const val KEY_FILTERED_IMAGE_URI = "filteredImageUri"
+    }
 
     private lateinit var binding : ActivityPickupImageBinding
     private val viewModel:PickupImageViewModel by viewModel()
@@ -82,6 +88,30 @@ class PickupImageActivity : AppCompatActivity(), ImageFilterPreviewListener {
                 imageFilterDataState.error?.let { error -> this.displayToast(error) }
             }
         })
+
+        viewModel.saveFilteredImageUiState.observe(this,{
+            val saveFilteredImageDataState = it ?: return@observe
+            if(saveFilteredImageDataState.isLoading){
+                binding.imageSave.visibility = View.GONE
+                binding.onFileSavingProgressBar.visibility = View.VISIBLE
+            } else {
+                binding.onFileSavingProgressBar.visibility = View.GONE
+                binding.imageSave.visibility = View.VISIBLE
+            }
+            saveFilteredImageDataState.uri?.let { savedImageUri ->
+                Intent(
+                    applicationContext,
+                    FilteredImageActivity::class.java
+                ).also { savedImageIntent ->
+                    savedImageIntent.putExtra(KEY_FILTERED_IMAGE_URI,savedImageUri)
+                    startActivity(savedImageIntent)
+                }
+            } ?: kotlin.run {
+                saveFilteredImageDataState.error?.let {error->
+                    this.displayToast(error.toString())
+                }
+            }
+        })
     }
 
 
@@ -99,6 +129,13 @@ class PickupImageActivity : AppCompatActivity(), ImageFilterPreviewListener {
         binding.imagePreview.setOnClickListener {
             binding.imagePreview.setImageBitmap(filteredBitmap.value)
         }
+
+        binding.imageSave.setOnClickListener {
+            filteredBitmap.value?.let { bitmap ->
+                viewModel.saveFilteredImage(bitmap)
+            }
+        }
+
     }
 
     override fun onFilterClicked(imageFilter: ImageFilter) {

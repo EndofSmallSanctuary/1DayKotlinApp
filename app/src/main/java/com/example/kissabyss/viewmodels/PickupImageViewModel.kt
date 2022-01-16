@@ -84,4 +84,37 @@ class PickupImageViewModel(private val editImageRepository: EditImageRepository)
     data class ImageFiltersDataState(val isLoading: Boolean,val imageFilters: List<ImageFilter>?, val error: String?)
 
     //endregion
+
+    //region:: Save filtered image
+    private val saveFilteredImageDataState = MutableLiveData<SaveFilteredImageDataState>()
+    val saveFilteredImageUiState: LiveData<SaveFilteredImageDataState> get() = saveFilteredImageDataState
+
+    fun saveFilteredImage(filteredBitmap: Bitmap){
+        Coroutines.runJobInIO {
+            kotlin.runCatching {
+                emitSaveFilteredImageUiState(isLoading = true)
+                editImageRepository.saveFilteredImage(filteredBitmap)
+            }.onSuccess {
+                emitSaveFilteredImageUiState(uri = it)
+            }.onFailure {
+                emitSaveFilteredImageUiState(error = it.message.toString())
+            }
+        }
+    }
+
+
+    private fun emitSaveFilteredImageUiState(
+        isLoading: Boolean = false,
+        uri: Uri? = null,
+        error: String? = null
+    ) {
+        val dataState = SaveFilteredImageDataState(isLoading,uri,error)
+        saveFilteredImageDataState.postValue(dataState)
+    }
+
+    data class SaveFilteredImageDataState(
+        val isLoading: Boolean,
+        val uri: Uri?,
+        val error: String?
+    )
 }

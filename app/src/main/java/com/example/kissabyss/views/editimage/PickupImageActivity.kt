@@ -1,10 +1,10 @@
 package com.example.kissabyss.views.editimage
 
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.example.kissabyss.adapters.ImageFiltersAdapter
 import com.example.kissabyss.databinding.ActivityPickupImageBinding
 import com.example.kissabyss.utilities.displayToast
 import com.example.kissabyss.utilities.show
@@ -41,10 +41,24 @@ class PickupImageActivity : AppCompatActivity() {
             dataState.bitmap?.let { bitmap ->
                 binding.imagePreview.setImageBitmap(bitmap)
                 binding.imagePreview.show()
+                viewModel.loadImageFilters(bitmap)
             } ?: kotlin.run {
                 dataState.error?.let { error ->
                     this.displayToast(error)
                 }
+            }
+        })
+
+        viewModel.imageFiltersUiState.observe(this,{
+            val imageFilterDataState = it ?: return@observe
+            binding.onFiltersLoadProgressBar.visibility =
+                if(imageFilterDataState.isLoading) View.VISIBLE else View.GONE
+            imageFilterDataState.imageFilters?.let { imageFilters ->
+                ImageFiltersAdapter(imageFilters).also { adapter ->
+                    binding.filtersRecyclerView.adapter = adapter
+                }
+            } ?: run {
+                imageFilterDataState.error?.let { error -> this.displayToast(error) }
             }
         })
     }

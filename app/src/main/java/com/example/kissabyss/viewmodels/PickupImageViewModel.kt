@@ -50,9 +50,38 @@ class PickupImageViewModel(private val editImageRepository: EditImageRepository)
 
     //region:: Prepare image Filters
     private val imageFiltersDataState =  MutableLiveData<ImageFiltersDataState>()
-    
+    val imageFiltersUiState: LiveData<ImageFiltersDataState> get() = imageFiltersDataState
 
-    data class ImageFiltersDataState(val isLoading: Boolean,val imageFilters: List<ImageFilter>, val error: String?)
+
+    fun loadImageFilters(originalImage: Bitmap){
+        Coroutines.runJobInIO {
+            kotlin.runCatching {
+                emitImageFiltersUiState(isLoading = true)
+                editImageRepository.getImageFilters(getPreviewImage(originalImage))
+            }.onSuccess { imageFilters ->
+                emitImageFiltersUiState(imageFilters =  imageFilters)
+            }
+        }
+    }
+
+    private fun getPreviewImage(originalImage: Bitmap): Bitmap {
+        return kotlin.runCatching {
+            val previewWidth = 150
+            val previewHeight = originalImage.height * previewWidth / originalImage.width
+            Bitmap.createScaledBitmap(originalImage,previewWidth,previewHeight,false)
+        }.getOrDefault(originalImage)
+    }
+
+    private fun emitImageFiltersUiState(
+        isLoading: Boolean = false,
+        imageFilters: List<ImageFilter>?= null,
+        error: String? = null
+    ){
+        val dataState = ImageFiltersDataState(isLoading,imageFilters,error)
+        imageFiltersDataState.postValue(dataState)
+    }
+
+    data class ImageFiltersDataState(val isLoading: Boolean,val imageFilters: List<ImageFilter>?, val error: String?)
 
     //endregion
 }

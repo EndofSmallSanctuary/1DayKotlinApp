@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import com.example.kissabyss.databinding.ActivityMainBinding
+import com.example.kissabyss.views.SavedImagesGallery.SavedImagesGalleryActivity
 import com.example.kissabyss.views.editimage.PickupImageActivity
 
 class MainActivity : AppCompatActivity() {
@@ -32,7 +33,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
         binding.buttonEditSavedImage.setOnClickListener{
-            Intent(applicationContext, )
+            Intent(applicationContext,SavedImagesGalleryActivity::class.java).also {
+                startActivity(it)
+            }
         }
     }
 

@@ -5,4 +5,5 @@ import org.koin.dsl.module
 
 val viewModelModel  = module {
     viewModel { PickupImageViewModel(editImageRepository = get()) }
+    viewModel { SavedImagesViewModel(savedImagesRepository = get()) }
 }

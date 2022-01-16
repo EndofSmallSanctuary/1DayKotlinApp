@@ -11,6 +11,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KissAbyss">
         <activity
+            android:name=".views.SavedImagesGallery.SavedImagesGalleryActivity"
+            android:exported="false" />
+        <activity
             android:name=".views.filteredImage.FilteredImageActivity"
             android:exported="false" />
         <activity

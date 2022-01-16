@@ -4,9 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.kissabyss.databinding.ItemFilterContainerBinding
+import com.example.kissabyss.listeners.ImageFilterPreviewListener
 import com.example.kissabyss.processing.ImageFilter
 
-class ImageFiltersAdapter(private val imageFilters: List<ImageFilter>) : RecyclerView.Adapter<ImageFiltersAdapter.ImageFilterViewHolder>() {
+class ImageFiltersAdapter(
+    private val imageFilters: List<ImageFilter>,
+    internal val imageFilterListener: ImageFilterPreviewListener
+    ) : RecyclerView.Adapter<ImageFiltersAdapter.ImageFilterViewHolder>() {
 
     inner class ImageFilterViewHolder(val binding: ItemFilterContainerBinding):
             RecyclerView.ViewHolder(binding.root)
@@ -21,6 +25,9 @@ class ImageFiltersAdapter(private val imageFilters: List<ImageFilter>) : Recycle
             with(imageFilters[position]){
                 binding.imageFilterPreview.setImageBitmap(filterPreview)
                 binding.textFilterName.text = name
+                binding.root.setOnClickListener {
+                    imageFilterListener.onFilterClicked(this)
+                }
             }
         }
     }

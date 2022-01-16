@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">KissAbyss</string>
+    <string name="saved_images">Сохраненные изображения</string>
+    <string name="edit_new_image">Редактировать новое изображение</string>
+    <string name="hollywood_undead_lion">Живой концерт на Mayhem стадионе</string>
+    <string name="apply_filter">Применить фильтр</string>
 </resources>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".views.main.MainActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
@@ -45,7 +45,7 @@
 
     <TextView
         android:id="@+id/welcomeHeadText"
-        android:text="Hollywood Undead"
+        android:text="@string/hollywood_undead"
         android:fontFamily="@font/poppins_bold"
         android:textSize="@dimen/_20ssp"
         android:layout_marginBottom="0dp"

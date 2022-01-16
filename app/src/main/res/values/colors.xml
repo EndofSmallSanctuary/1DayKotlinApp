@@ -11,4 +11,5 @@
     <color name="buttonEditNewImage">#FFB74D</color>
     <color name="ice">#F0F0F0</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000</color>
 </resources>

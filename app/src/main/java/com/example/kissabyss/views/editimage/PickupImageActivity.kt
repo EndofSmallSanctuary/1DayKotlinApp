@@ -89,6 +89,16 @@ class PickupImageActivity : AppCompatActivity(), ImageFilterPreviewListener {
         binding.imageBack.setOnClickListener{
             onBackPressed()
         }
+
+        /*Original image on long hover*/
+        binding.imagePreview.setOnLongClickListener {
+            binding.imagePreview.setImageBitmap(originalBitmap)
+            return@setOnLongClickListener false
+        }
+        /*And on release */
+        binding.imagePreview.setOnClickListener {
+            binding.imagePreview.setImageBitmap(filteredBitmap.value)
+        }
     }
 
     override fun onFilterClicked(imageFilter: ImageFilter) {
